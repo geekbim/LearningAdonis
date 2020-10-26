@@ -8,7 +8,14 @@
 <body>
     <form action="{{route('form.save')}}" method="post">
         {{csrfField()}}
-        <input type="text" name="name" id="name">
+        <input type="text" name="name" id="name"value="{{old('name', '')}}">
+        <br>
+        {{elIf('<span>$self</span>', getErrorFor('name'), hasErrorFor('name'))}}
+        <br>
+        <input type="text" name="phone" id="phone" value="{{old('phone'),''}}">
+        <br>
+        {{elIf('<span>$self</span>', getErrorFor('phone'),hasErrorFor('phone'))}}
+        <br>
         <button type="submit">Submit</button>
     </form>
 </body>

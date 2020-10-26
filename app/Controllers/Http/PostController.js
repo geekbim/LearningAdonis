@@ -1,5 +1,7 @@
 'use strict'
 
+const {validate} = use('Validator')
+
 class PostController {
 
     index({request, view}) {
@@ -14,8 +16,20 @@ class PostController {
         return view.render('form-page')
     }
 
-    formPageSave({request, response}) {
-        return request.input('name')
+    async formPageSave({request, response, session}) {
+        const rules = {
+            name: 'required|min: 3',
+            phone: 'required|min: 5'
+        }
+
+        const validation = await validate(request.all(), rules)
+
+        if (validation.fails()) {
+            session.withErrors(validation.messages()).flashAll()
+            return response.redirect('back')
+        }
+
+        return 'validation success'
     }
 
 }
